@@ -34,5 +34,11 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'cashonrails' => [
+        'secret_key' => env('CASHONRAILS_SECRET_KEY'),
+        'base_url' => env('CASHONRAILS_BASE_URL'),
+        'timeout' => env('CASHONRAILS_TIMEOUT', 30),
+        'currency' => env('CASHONRAILS_DEFAULT_CURRENCY', 'NGN'),
+    ],
 
 ];
