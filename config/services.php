@@ -34,11 +34,5 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
-    'cashonrails' => [
-        'secret_key' => env('CASHONRAILS_SECRET_KEY','sk_live_2ppyvqwz3uybnk746z0wgu4ox21ietvhiwacwwa'),
-        'base_url' => env('CASHONRAILS_BASE_URL', 'https://mainapi.cashonrails.com/api/v1'),
-        'timeout' => env('CASHONRAILS_TIMEOUT', 30),
-        'currency' => env('CASHONRAILS_DEFAULT_CURRENCY', 'NGN'),
-    ],
 
 ];
