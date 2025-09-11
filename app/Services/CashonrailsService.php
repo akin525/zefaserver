@@ -17,8 +17,8 @@ class CashonrailsService
     protected int $timeout;
     public function __construct()
     {
-        $this->secretKey = config('services.cashonrails.secret_key', 'sk_live_2ppyvqwz3uybnk746z0wgu4ox21ietvhiwacwwa');
-        $this->baseUrl = config('services.cashonrails.base_url', 'https://mainapi.cashonrails.com/api/v1');
+        $this->secretKey = config('services.cashonrails.secret_key');
+        $this->baseUrl = config('services.cashonrails.base_url');
         $this->timeout = config('services.cashonrails.timeout', 30);
 
         $this->validateConfiguration();
