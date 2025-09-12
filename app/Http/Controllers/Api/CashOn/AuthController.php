@@ -241,30 +241,54 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string',
             'last_name' => 'required|string',
+            'phone' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
         ]);
+
         if ($validator->fails()) {
             Log::error("validation_error " . $validator->errors());
-            return response()->json(['status' => false, 'message' => 'Incomplete request', 'error' => $validator->errors()], 401);
+            return response()->json([
+                'status' => false,
+                'message' => 'Incomplete request',
+                'error' => $validator->errors()
+            ], 422); // Changed from 401 to 422 for validation errors
         }
 
-       $user= User::create([
-            'fist_name'=>$request->first_name,
-            'last_name'=>$request->last_name,
-            'phone'=>$request->phone,
-            'email'=>$request->email,
-            'password'=>Hash::make($request->password),
+        $user = User::create([
+            'first_name' => $request->first_name, // Fixed typo: 'fist_name' -> 'first_name'
+            'last_name' => $request->last_name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
         ]);
 
+        // Create credentials for JWT authentication
+        $credentials = [
+            'email' => $request->email,
+            'password' => $request->password
+        ];
 
+        if (!$token = JWTAuth::attempt($credentials)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid email or password'
+            ], 401);
+        }
 
-        // ✅ You can also send this token to user via SMS or email here
+        $user = auth()->user();
+
         Log::info("Registration Complete", ['user' => $user]);
+
         return response()->json([
             'status' => true,
-            'message' => 'Basic information saved, device registered. Please verify your device.',
-            'user' => $user,
+            'message' => 'Register Successfully.',
+            'data' => [
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'user' => $user,
+            ]
+            // Removed duplicate 'user' key
         ]);
     }
 

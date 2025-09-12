@@ -18,12 +18,12 @@ Route::group(['prefix' => 'zefamfb'], function () {
     Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail']);
     Route::post('/reset-password', [AuthController::class, 'reset']);
     Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::post('/basic-info', [AuthController::class, 'saveBasicInfo']);
 
     Route::prefix('onboarding')->group(function () {
     Route::middleware(['jwt.auth'])->group(function () {
         Route::post('/verify-identity', [AuthController::class, 'verifyIdentity']);
         Route::post('/device/verify', [AuthController::class, 'verifyDevice']);
-        Route::post('/basic-info', [AuthController::class, 'saveBasicInfo']);
         Route::post('/upload-id', [AuthController::class, 'uploadId']);
         Route::post('/upload-scan', [AuthController::class, 'uploadScan']);
         Route::post('/setup-pin', [AuthController::class, 'setupPin']);
