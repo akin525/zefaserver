@@ -66,6 +66,8 @@ class IdentityController extends Controller
         } else if ($request->type==='passport'){
             $result = $this->sprintCheck->verifyPassport($request->firstname, $request->lastname, $request->dob,$request->number, $identify);
 
+        }else if ($request->type==='driver'){
+            $result = $this->sprintCheck->verifyDriverLicense($request->firstname, $request->lastname, $request->dob,$request->number, $identify);
         }
 
         return $result;

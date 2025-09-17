@@ -21,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin.permission' => \App\Http\Middleware\AdminPermissionMiddleware::class,
             'admin.role' => \App\Http\Middleware\AdminRoleMiddleware::class,
             'admin.department' => \App\Http\Middleware\AdminDepartmentMiddleware::class,
+            'user.status'=>\App\Http\Middleware\UsersStatusMiddleware::class,
 
         ]);
     })

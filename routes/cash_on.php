@@ -21,7 +21,7 @@ Route::group(['prefix' => 'zefamfb'], function () {
     Route::post('/basic-info', [AuthController::class, 'saveBasicInfo']);
 
     Route::prefix('onboarding')->group(function () {
-    Route::middleware(['jwt.auth'])->group(function () {
+    Route::middleware(['jwt.auth', 'user.status'])->group(function () {
         Route::post('/verify-identity', [AuthController::class, 'verifyIdentity']);
         Route::post('/device/verify', [AuthController::class, 'verifyDevice']);
         Route::post('/upload-id', [AuthController::class, 'uploadId']);
@@ -31,7 +31,7 @@ Route::group(['prefix' => 'zefamfb'], function () {
 });
 
     // Profile routes (protected by JWT)
-    Route::middleware(['jwt.auth'])->prefix('profile')->group(function () {
+    Route::middleware(['jwt.auth', 'user.status'])->prefix('profile')->group(function () {
         Route::get('/next-of-kin', [ProfileSettingController::class, 'getNextOfKin']);
         Route::post('/next-of-kin', [ProfileSettingController::class, 'saveNextOfKin']);
 
@@ -57,12 +57,12 @@ Route::group(['prefix' => 'zefamfb'], function () {
     });
 
     // KYC routes (protected by JWT)
-    Route::middleware(['jwt.auth'])->prefix('kyc')->group(function () {
+    Route::middleware(['jwt.auth', 'user.status'])->prefix('kyc')->group(function () {
         Route::post('verify-id', [IdentityController::class, 'verifyIdentity']);
     });
 
     // Other protected routes
-    Route::middleware(['jwt.auth'])->group(function () {
+    Route::middleware(['jwt.auth', 'user.status'])->group(function () {
         Route::post('upload-file', [AuthController::class, 'uploadFile']);
         Route::get('/dashboard', [AuthController::class, 'dashboard']);
         Route::get('/history', [IdentityController::class, 'verificationHistory']);
