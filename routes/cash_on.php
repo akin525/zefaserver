@@ -59,6 +59,7 @@ Route::group(['prefix' => 'zefamfb'], function () {
     // KYC routes (protected by JWT)
     Route::middleware(['jwt.auth', 'user.status'])->prefix('kyc')->group(function () {
         Route::post('verify-id', [IdentityController::class, 'verifyIdentity']);
+        Route::post('verify-business', [IdentityController::class, 'verifyBusiness']);
     });
 
     // Other protected routes

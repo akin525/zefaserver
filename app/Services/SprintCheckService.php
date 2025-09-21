@@ -20,6 +20,14 @@ class SprintCheckService
         $this->baseUrl = env('SPRINTCHECK_BASE_URL');
     }
 
+    public function verifyBusiness($name)
+    {
+        $payload = [
+            'name' => $name,
+        ];
+
+        return $this->sendRequest('/cac/name', 'CAC', $payload);
+    }
     public function verifyBVN($bvn, $identifier)
     {
         $payload = [
@@ -93,8 +101,8 @@ class SprintCheckService
             $verificationLog = VerificationLog::create([
                 'user_id' => auth()->id(),
                 'verification_type' => $verificationType,
-                'verification_number' => $payload['number'] ?? null,
-                'identifier' => $payload['identifier'],
+                'verification_number' => $payload['number'] || $payload['name'] ?? null,
+                'identifier' => $payload['identifier'] ?? null,
                 'request_payload' => $payload,
                 'response_data' => [],
                 'verification_success' => false,
