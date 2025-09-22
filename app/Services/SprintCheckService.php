@@ -101,7 +101,7 @@ class SprintCheckService
             $verificationLog = VerificationLog::create([
                 'user_id' => auth()->id(),
                 'verification_type' => $verificationType,
-                'verification_number' => $payload['number'] || $payload['name'] ?? null,
+                'verification_number' => $payload['number'] ?? $payload['name'] ?? null,
                 'identifier' => $payload['identifier'] ?? null,
                 'request_payload' => $payload,
                 'response_data' => [],
