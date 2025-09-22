@@ -28,6 +28,14 @@ class SprintCheckService
 
         return $this->sendRequest('/cac/name', 'CAC', $payload);
     }
+    public function getBusinessHolder($biz_id)
+    {
+        $payload = [
+            'biz_id' => $biz_id,
+        ];
+
+        return $this->sendRequest('/cac/shareholders', 'shareholder', $payload);
+    }
     public function verifyBVN($bvn, $identifier)
     {
         $payload = [
@@ -101,7 +109,7 @@ class SprintCheckService
             $verificationLog = VerificationLog::create([
                 'user_id' => auth()->id(),
                 'verification_type' => $verificationType,
-                'verification_number' => $payload['number'] ?? $payload['name'] ?? null,
+                'verification_number' => $payload['number'] ?? $payload['name'] ?? $payload['biz_id'] ??null,
                 'identifier' => $payload['identifier'] ?? null,
                 'request_payload' => $payload,
                 'response_data' => [],

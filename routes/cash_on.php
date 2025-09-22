@@ -60,6 +60,7 @@ Route::group(['prefix' => 'zefamfb'], function () {
     Route::middleware(['jwt.auth', 'user.status'])->prefix('kyc')->group(function () {
         Route::post('verify-id', [IdentityController::class, 'verifyIdentity']);
         Route::post('verify-business', [IdentityController::class, 'verifyBusiness']);
+        Route::post('business-holder', [IdentityController::class, 'getBusinessholder']);
     });
 
     // Other protected routes

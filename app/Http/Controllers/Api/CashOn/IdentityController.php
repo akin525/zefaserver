@@ -101,6 +101,35 @@ class IdentityController extends Controller
 
         return $result;
     }
+    public function getBusinessholder(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'biz_id'   => 'required',
+        ]);
+        if ($validator->fails()) {
+            Log::error("validation_error ". $validator->errors());
+            return response()->json([
+                'status'  => false,
+                'message' => 'Invalid input',
+            ]);
+        }
+
+        $user = auth()->user();
+        $check=VerificationLog::where('verification_number', $request->biz_id)
+            ->where('verification_success','!=', false)->first();
+        if ($check){
+            $data=$check->response_data;
+            return response()->json([
+                'status' => true,
+                'message' => 'Business Shareholder name already exists',
+                'data' => $data['data'],
+            ]);
+        }
+        $result = $this->sprintCheck->getBusinessHolder($request->biz_id);
+
+        return $result;
+    }
+
     public function verificationHistory(Request $request)
     {
         $user = auth()->user();
