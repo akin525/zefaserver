@@ -124,9 +124,13 @@ class SprintCheckService
                 'Accept' => 'application/json',
                 'Authorization' => $this->apiKey,
                 'signature' => $signature,
-            ])->post("{$this->baseUrl}{$endpoint}", $payload);
+            ])
+                ->connectTimeout(30)  // time to establish connection
+                ->timeout(120)        // total time for request + response
+                ->post("{$this->baseUrl}{$endpoint}", $payload);
 
             $data = $response->json();
+
 
             Log::info("SprintCheck response", [
                 'type' => $verificationType,
