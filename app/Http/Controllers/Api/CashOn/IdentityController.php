@@ -48,14 +48,14 @@ class IdentityController extends Controller
 
         $check=VerificationLog::where('verification_number', $request->number)
             ->where('verification_success','!=', false)->first();
-        if ($check){
-            $data=$check->response_data;
-            return response()->json([
-                'status' => true,
-                'message' => 'Verified number already exists',
-                'data' => $data['data'],
-            ]);
-        }
+//        if ($check){
+//            $data=$check->response_data;
+//            return response()->json([
+//                'status' => true,
+//                'message' => 'Verified number already exists',
+//                'data' => $data['data'],
+//            ]);
+//        }
         $identify = Str::uuid()->toString();
         if ($request->type === 'bvn') {
             $result = $this->sprintCheck->verifyBVN($request->number, $identify);
